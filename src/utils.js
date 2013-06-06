@@ -52,7 +52,11 @@ ko.utils = (function () {
                 action(array[i]);
         },
 
-        arrayIndexOf: function (array, item) {
+        arrayIndexOf: function (array, item, predicate) {            
+            if (predicate)
+                for (var i = 0, j = array.length; i < j; i++)
+                    if (predicate(array[i]) === predicate(item))
+                        return i;
             if (typeof Array.prototype.indexOf == "function")
                 return Array.prototype.indexOf.call(array, item);
             for (var i = 0, j = array.length; i < j; i++)
@@ -74,11 +78,11 @@ ko.utils = (function () {
                 array.splice(index, 1);
         },
 
-        arrayGetDistinctValues: function (array) {
+        arrayGetDistinctValues: function (array, predicate) {
             array = array || [];
             var result = [];
             for (var i = 0, j = array.length; i < j; i++) {
-                if (ko.utils.arrayIndexOf(result, array[i]) < 0)
+                if (ko.utils.arrayIndexOf(result, array[i], predicate) < 0)
                     result.push(array[i]);
             }
             return result;
