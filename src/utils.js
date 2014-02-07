@@ -52,11 +52,13 @@ ko.utils = (function () {
                 action(array[i]);
         },
 
-        arrayIndexOf: function (array, item, predicate) {            
-            if (predicate)
+        arrayIndexOf: function (array, item, predicate) {
+            if (predicate) {
+                item = predicate(item);
                 for (var i = 0, j = array.length; i < j; i++)
-                    if (predicate(array[i]) === predicate(item))
+                    if (predicate(array[i]) === item)
                         return i;
+			}
             if (typeof Array.prototype.indexOf == "function")
                 return Array.prototype.indexOf.call(array, item);
             for (var i = 0, j = array.length; i < j; i++)
